@@ -28,13 +28,14 @@ public class Time {
                second = s;
         }
         
-           public setTimeClassic(int h, int m, int s) {
+        //Seems redundant to have two setTime functions, your call
+        public setTimeClassic(int h, int m, int s) {
                hour = h;
                minute = m;
                second = s;
                
                if(hour > 12){
-               hour -= hour;
+               hour -= 12;
                string TOD = "PM";
                }
 
@@ -44,7 +45,7 @@ public class Time {
         }
 
         public int getHour(){
-         return hour;   
+            return hour;
         }
         
         public int getMinute(){
@@ -62,39 +63,60 @@ public class Time {
 
 
     //the 'late' variables will be the time that the alarm is set to go off
-        public String setAlarm(int lateHour, int lateMinute, int lateSecond){
+        public String setAlarm(int lateHour, int lateMinute, int lateSecond)
+        {
+                //This is our current time
+                int h = hour;
+                int m = minute;
+                int s = second;
+                
+                //Convert to seconds, way easier to deal with
+                timeInSeconds = 0;
         
-        //This is our current time
-        int h = hour;
-        int m = minute;
-        int s = second;
-        //Convert to seconds, way easier to deal with
-        timeInSeconds = 0;
+                currentTimeInSeconds = convertToSeconds(h,m,s);
+                alarmTimeInSeconds = convertToSeconds(lateHour,lateMinute,lateSecond);
         
-        currentTimeInSeconds = convertToSeconds(h,m,s);
-        alarmTimeInSeconds = convertToSeconds(lateHour,lateMinute,lateSecond);
+                //What if I set alarm for 800 at 2300?
+                if((currentTimeInSeconds - alarmTimeInSeconds) < 0)
+                {
+                    return "Invalid Alarm Entry";
+                }
+                else
+                {
+                        while(timer < (currentTimeInSeconds-alarmTimeInSeconds))
+                        {
+                                timer += 1;
+                                sleep(1); //sleeps one second, adds +1 to timer.
+            
+                        } //end score while
+                
+                        return "Alarm!";
+                } //end else statement
         
-        if((currentTimeInSeconds - alarmTimeInSeconds) < 0){
-            return "Invalid Alarm Entry";
+        } //end function
+        
+        //Returns a string when the seconds passed are reached
+        public String kitchenTimer(int timerAmount)
+        {
+                //Filler variable to hold timer count
+                int count = 0;
+                
+                //Check for moronic users trying to be funny
+                if(timerAmount < 0)
+                {
+                        return "Invalid countdown amount!\n";
+                }
+                else
+                {
+                        //Add one to count and sleep for one second until target seconds are reached
+                        while(count < timerAmount)
+                        {
+                                count += 1;
+                                sleep(1);
+                        }
+                        
+                        return "Ring, ring! Timer done!\n";
+                }
         }
-        else{
-        
-        while(timer < (currentTimeInSeconds-alarmTimeInSeconds)){
-            
-            timer +1;
-            sleep(1); //sleeps one second, adds +1 to timer.
-            
-        } //end score while
-        return "Alarm!";
-        } //end else statement
-        
-        
-    } //end function
         
 } //end scope main
-        
-        
-        
-        
-        
-        
