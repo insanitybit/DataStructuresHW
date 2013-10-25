@@ -1,20 +1,18 @@
-public class Time {
-
-        private static int hour;
-        private static int minute;
-        private static int second;
-
-        Time(){
+        Time::Time(){
             hour = 24;
             minute = 0;
             second = 0;
         }
-        
-        public String getTimeMilitary {
+
+	Time::~Time()
+	{
+	}
+
+        String Time::getTimeMilitary(void) {
                 return hour + ":" + minute + ":" + second;
         }
-        
-        public String getTimeClassic {
+
+        String Time::getTimeClassic(void) {
                 if (hour >= 12){
                     return hour - 12 + ":" + minute + ":" + second "PM";
                 }
@@ -22,60 +20,45 @@ public class Time {
                     return hour + ":" + minute + ":" + second "AM";
                 }
         }
-        public setTimeMilitary(int h, int m, int s) {
+
+        void Time::setTime(int h, int m, int s) {
                hour = h;
                minute = m;
                second = s;
         }
-        
-        //Seems redundant to have two setTime functions, your call
-        public setTimeClassic(int h, int m, int s) {
-               hour = h;
-               minute = m;
-               second = s;
-               
-               if(hour > 12){
-               hour -= 12;
-               string TOD = "PM";
-               }
 
-               else{
-               string TOD = "AM";
-               }
-        }
-
-        public int getHour(){
+        int Time::getHour(void){
             return hour;
         }
-        
-        public int getMinute(){
+
+        int Time::getMinute(void){
             return minute;
         }
-        
-        public int getSecond(){
+
+        int Time::getSecond(void){
             return second;
         }
-        
-        int convertToSeconds(int fullHour, int fullMinute, int fullSecond){
+
+        int Time::convertToSeconds(int fullHour, int fullMinute, int fullSecond){
             return (fullHour * 3600) + (fullMinute * 60) + (fullSecond);
         }
 
 
 
     //the 'late' variables will be the time that the alarm is set to go off
-        public String setAlarm(int lateHour, int lateMinute, int lateSecond)
+        String Time::setAlarm(int lateHour, int lateMinute, int lateSecond)
         {
                 //This is our current time
                 int h = hour;
                 int m = minute;
                 int s = second;
-                
+
                 //Convert to seconds, way easier to deal with
                 timeInSeconds = 0;
-        
+
                 currentTimeInSeconds = convertToSeconds(h,m,s);
                 alarmTimeInSeconds = convertToSeconds(lateHour,lateMinute,lateSecond);
-        
+
                 //What if I set alarm for 800 at 2300?
                 if((currentTimeInSeconds - alarmTimeInSeconds) < 0)
                 {
@@ -87,20 +70,20 @@ public class Time {
                         {
                                 timer += 1;
                                 sleep(1); //sleeps one second, adds +1 to timer.
-            
+
                         } //end score while
-                
+
                         return "Alarm!";
                 } //end else statement
-        
+
         } //end function
-        
+
         //Returns a string when the seconds passed are reached
-        public String kitchenTimer(int timerAmount)
+        String Time::kitchenTimer(int timerAmount)
         {
                 //Filler variable to hold timer count
                 int count = 0;
-                
+
                 //Check for moronic users trying to be funny
                 if(timerAmount < 0)
                 {
@@ -114,9 +97,9 @@ public class Time {
                                 count += 1;
                                 sleep(1);
                         }
-                        
+
                         return "Ring, ring! Timer done!\n";
                 }
         }
-        
+
 } //end scope main
